@@ -46,4 +46,5 @@ export interface Article {
   sections: ArticleSection[];
   faqs: FAQItem[];
   relatedSlugs: string[];
+  content?: string;
 }

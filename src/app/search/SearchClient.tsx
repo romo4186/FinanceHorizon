@@ -4,7 +4,7 @@ import React, { useState, useEffect, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Search, Compass, Calendar, BookOpen } from 'lucide-react';
-import { searchArticles } from '@/lib/content';
+import { querySearch } from '@/app/actions/articles';
 import { Article } from '@/types';
 import styles from './search.module.css';
 
@@ -27,8 +27,15 @@ export default function SearchClient() {
   useEffect(() => {
     const trimmedQuery = query.trim();
     if (trimmedQuery.length >= 2) {
-      const matches = searchArticles(trimmedQuery);
-      setResults(matches);
+      let active = true;
+      querySearch(trimmedQuery).then((matches) => {
+        if (active) {
+          setResults(matches);
+        }
+      });
+      return () => {
+        active = false;
+      };
     } else {
       setResults([]);
     }

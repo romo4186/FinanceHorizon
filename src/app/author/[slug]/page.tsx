@@ -54,7 +54,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
     notFound();
   }
 
-  const authorArticles = getArticlesByAuthor(slug);
+  const authorArticles = await getArticlesByAuthor(slug);
 
   // Breadcrumbs path
   const breadcrumbItems = [

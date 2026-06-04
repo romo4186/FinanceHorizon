@@ -18,7 +18,8 @@ interface ArticlePageProps {
 
 // Generate static params for build pre-rendering
 export async function generateStaticParams() {
-  return getAllArticles().map((article) => ({
+  const articlesList = await getAllArticles();
+  return articlesList.map((article) => ({
     category: article.category,
     slug: article.slug
   }));
@@ -27,7 +28,7 @@ export async function generateStaticParams() {
 // Generate metadata for SEO dynamically
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return {
@@ -66,28 +67,27 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { category, slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   // Validate article existence and matching category slug
   if (!article || article.category !== category) {
     notFound();
   }
 
-  const relatedArticles = getRelatedArticles(article, 4);
+  const relatedArticles = await getRelatedArticles(article, 4);
   const breadcrumbItems = [
     { name: 'Home', url: '/' },
     { name: article.category.replace('-', ' '), url: `/${article.category}` },
     { name: article.title }
   ];
 
-  // Extract headings for Table of Contents
-  const tocSections = article.sections.map((sec) => ({
-    id: sec.id,
-    title: sec.title
+  // Extract headings for Table of Contents from HTML
+  const h2Regex = /<section id="([^"]+)">\s*<h2>(.*?)<\/h2>/gi;
+  const matches = [...(article.content || '').matchAll(h2Regex)];
+  const tocSections = matches.map((match) => ({
+    id: match[1],
+    title: match[2].replace(/<[^>]*>/g, '') // Strip nested tags
   }));
-
-  // Determine middle of content for ad insertion
-  const midIndex = Math.floor(article.sections.length / 2);
 
   return (
     <>
@@ -154,86 +154,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 />
               </div>
 
-              {/* Introduction */}
-              <p className={styles.introText}>{article.introduction}</p>
-
               {/* Table of Contents */}
               <TableOfContents sections={tocSections} />
 
-
-              {/* Dynamic Content Sections */}
-              {article.sections.map((section, secIdx) => (
-                <React.Fragment key={section.id}>
-                  
-                  <section id={section.id} className={styles.section}>
-                    <h2 className={styles.sectionTitle}>{section.title}</h2>
-                    {section.content.map((block, blockIdx) => {
-                      switch (block.type) {
-                        case 'paragraph':
-                          return (
-                            <p key={blockIdx} className={styles.paragraph}>
-                              {block.text}
-                            </p>
-                          );
-                        case 'list':
-                          return (
-                            <ul key={blockIdx} className={styles.list}>
-                              {block.items?.map((item, itemIdx) => (
-                                <li key={itemIdx} className={styles.listItem}>
-                                  {item}
-                                </li>
-                              ))}
-                            </ul>
-                          );
-                        case 'table':
-                          return (
-                            <div key={blockIdx} className={styles.tableWrapper}>
-                              <table className={styles.table}>
-                                <thead>
-                                  <tr>
-                                    {block.headers?.map((h, hIdx) => (
-                                      <th key={hIdx}>{h}</th>
-                                    ))}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {block.rows?.map((row, rIdx) => (
-                                    <tr key={rIdx}>
-                                      {row.map((cell, cIdx) => (
-                                        <td key={cIdx}>{cell}</td>
-                                      ))}
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          );
-                        case 'callout':
-                          let calloutClass = '';
-                          switch (block.calloutType) {
-                            case 'info':
-                              calloutClass = styles.calloutInfo;
-                              break;
-                            case 'warning':
-                              calloutClass = styles.calloutWarning;
-                              break;
-                            case 'tip':
-                              calloutClass = styles.calloutTip;
-                              break;
-                          }
-                          return (
-                            <div key={blockIdx} className={`${styles.callout} ${calloutClass}`}>
-                              {block.text}
-                            </div>
-                          );
-                        default:
-                          return null;
-                      }
-                    })}
-                  </section>
-                </React.Fragment>
-              ))}
-
+              {/* Main HTML content body from DB */}
+              <div 
+                className={styles.articleHtmlContent}
+                dangerouslySetInnerHTML={{ 
+                  __html: (article.content || '').includes('<section id="faq"') 
+                    ? (article.content || '').split('<section id="faq"')[0] 
+                    : (article.content || '') 
+                }} 
+              />
 
               {/* FAQs Accordion */}
               {article.faqs.length > 0 && <FAQSection faqs={article.faqs} />}

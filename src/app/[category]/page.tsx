@@ -109,7 +109,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const categoryArticles = getArticlesByCategory(categoryKey);
+  const categoryArticles = await getArticlesByCategory(categoryKey);
   
   // Split articles into featured (newest) and remaining
   const featuredArticle = categoryArticles[0];

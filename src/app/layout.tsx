@@ -3,6 +3,7 @@ import { Inter, Outfit } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SchemaData from '@/components/SchemaData';
+import { logTraffic } from '@/lib/audit';
 import './globals.css';
 
 const inter = Inter({
@@ -87,6 +88,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fire-and-forget auditing of visitor traffic
+  logTraffic().catch((err) => console.error('Traffic log failed', err));
+
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body>

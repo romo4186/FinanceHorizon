@@ -11,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         '/_next/', // Next.js build assets directory
         '/static/', // Static asset references
         '/api/', // Back-end API services
+        '/eb-clinical-portal/', // Administrative portal
       ],
     },
     sitemap: `${baseUrl}/sitemap.xml`,

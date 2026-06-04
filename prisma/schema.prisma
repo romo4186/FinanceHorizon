@@ -1,0 +1,46 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Article {
+  id              String    @id @default(uuid())
+  slug            String    @unique
+  category        String?
+  title           String
+  metaTitle       String?
+  metaDescription String?
+  excerpt         String
+  content         String    @db.Text
+  imageUrl        String?
+  published       Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  authorSlug      String?
+
+  @@index([slug])
+}
+
+model SecurityLog {
+  id          String    @id @default(uuid())
+  ip          String    @unique
+  attempts    Int       @default(0)
+  lastAttempt DateTime  @default(now())
+  isLocked    Boolean   @default(false)
+  lockedUntil DateTime?
+}
+
+model TrafficLog {
+  id        String   @id @default(uuid())
+  timestamp DateTime @default(now())
+  method    String
+  url       String
+  ip        String?
+  userAgent String?
+  referer   String?
+  headers   Json
+}

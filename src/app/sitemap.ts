@@ -32,7 +32,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // 4. Article Pages
-  const articleEntries = getAllArticles().map((article) => ({
+  const articlesList = await getAllArticles();
+  const articleEntries = articlesList.map((article) => ({
     url: `${baseUrl}/${article.category}/${article.slug}`,
     lastModified: new Date(article.publishDate).toISOString(),
     changeFrequency: 'monthly' as const,

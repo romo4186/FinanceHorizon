@@ -1,73 +1,124 @@
-import { Article, Author } from '../types';
-import { articles } from '../data/articles';
+import { prisma } from './prisma';
 import { authors } from '../data/authors';
+import { Article, Author } from '../types';
 
-// Get all articles sorted by publish date (newest first)
-export function getAllArticles(): Article[] {
-  return [...articles].sort(
-    (a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
-  );
+// Map database article to Article type
+export function mapDbArticle(dbArt: any): Article {
+  const author = authors[dbArt.authorSlug || 'sarah-jenkins'] || authors['sarah-jenkins'];
+  
+  // Calculate read time
+  const strippedText = dbArt.content.replace(/<[^>]*>/g, ' ');
+  const wordCount = strippedText.trim().split(/\s+/).filter((w: string) => w.length > 0).length;
+  const readTime = `${Math.max(1, Math.ceil(wordCount / 200))} min read`;
+
+  // Extract FAQs for SchemaData
+  const faqItemRegex = /<h3 class="faq-question">(.*?)<\/h3>\s*<p class="faq-answer">(.*?)<\/p>/g;
+  const faqMatches = [...dbArt.content.matchAll(faqItemRegex)];
+  const faqs = faqMatches.map(m => ({
+    question: m[1],
+    answer: m[2]
+  }));
+
+  // Reconstruct sections to help dynamic rendering or page layout if needed,
+  // but page.tsx can render raw HTML directly or map them.
+  return {
+    slug: dbArt.slug,
+    title: dbArt.title,
+    seoTitle: dbArt.metaTitle || dbArt.title,
+    metaDescription: dbArt.metaDescription || dbArt.excerpt || '',
+    category: (dbArt.category || 'credit-cards') as any,
+    subtopics: dbArt.category ? [dbArt.category.replace('-', ' ')] : [],
+    publishDate: new Date(dbArt.createdAt).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }),
+    readTime,
+    author,
+    featuredImage: dbArt.imageUrl || '',
+    introduction: dbArt.excerpt || '',
+    sections: [], // served as HTML
+    faqs,
+    relatedSlugs: [],
+    content: dbArt.content
+  };
 }
 
-// Get articles filtered by category, sorted by date
-export function getArticlesByCategory(category: string): Article[] {
-  return getAllArticles().filter(
-    (article) => article.category.toLowerCase() === category.toLowerCase()
-  );
+export async function getAllArticles(): Promise<Article[]> {
+  const dbArticles = await prisma.article.findMany({
+    where: { published: true },
+    orderBy: { createdAt: 'desc' }
+  });
+  return dbArticles.map(mapDbArticle);
 }
 
-// Get an article by its slug
-export function getArticleBySlug(slug: string): Article | undefined {
-  return articles.find((article) => article.slug === slug);
+export async function getArticlesByCategory(category: string): Promise<Article[]> {
+  const dbArticles = await prisma.article.findMany({
+    where: {
+      published: true,
+      category: { equals: category, mode: 'insensitive' }
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+  return dbArticles.map(mapDbArticle);
 }
 
-// Get all articles written by a specific author
-export function getArticlesByAuthor(authorSlug: string): Article[] {
-  return getAllArticles().filter((article) => article.author.slug === authorSlug);
+export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
+  const dbArt = await prisma.article.findUnique({
+    where: { slug }
+  });
+  if (!dbArt) return undefined;
+  return mapDbArticle(dbArt);
 }
 
-// Get an author profile by their slug
+export async function getArticlesByAuthor(authorSlug: string): Promise<Article[]> {
+  const dbArticles = await prisma.article.findMany({
+    where: {
+      published: true,
+      authorSlug
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+  return dbArticles.map(mapDbArticle);
+}
+
 export function getAuthorBySlug(slug: string): Author | undefined {
   return authors[slug];
 }
 
-// Get all unique categories
 export function getCategories(): string[] {
   return ['credit-cards', 'banking', 'investing', 'insurance'];
 }
 
-// Find articles matching a query (title, description, subtopics, content check)
-export function searchArticles(query: string): Article[] {
+export async function searchArticles(query: string): Promise<Article[]> {
   if (!query) return [];
   const normalizedQuery = query.toLowerCase().trim();
 
-  return getAllArticles().filter((article) => {
-    const titleMatch = article.title.toLowerCase().includes(normalizedQuery);
-    const descMatch = article.metaDescription.toLowerCase().includes(normalizedQuery);
-    const subtopicMatch = article.subtopics.some((topic) =>
-      topic.toLowerCase().includes(normalizedQuery)
-    );
-    const categoryMatch = article.category.toLowerCase().replace('-', ' ').includes(normalizedQuery);
-
-    return titleMatch || descMatch || subtopicMatch || categoryMatch;
+  const dbArticles = await prisma.article.findMany({
+    where: {
+      published: true,
+      OR: [
+        { title: { contains: normalizedQuery, mode: 'insensitive' } },
+        { metaDescription: { contains: normalizedQuery, mode: 'insensitive' } },
+        { content: { contains: normalizedQuery, mode: 'insensitive' } },
+        { category: { contains: normalizedQuery, mode: 'insensitive' } }
+      ]
+    },
+    orderBy: { createdAt: 'desc' }
   });
+
+  return dbArticles.map(mapDbArticle);
 }
 
-// Get related articles based on pre-defined relatedSlugs or fallback to same category
-export function getRelatedArticles(article: Article, limit = 3): Article[] {
-  // Try to load pre-selected related articles first
-  const related = article.relatedSlugs
-    .map((slug) => getArticleBySlug(slug))
-    .filter((a): a is Article => !!a);
-
-  if (related.length >= limit) {
-    return related.slice(0, limit);
-  }
-
-  // Fallback to other articles from the same category
-  const sameCategory = getArticlesByCategory(article.category).filter(
-    (a) => a.slug !== article.slug && !article.relatedSlugs.includes(a.slug)
-  );
-
-  return [...related, ...sameCategory].slice(0, limit);
+export async function getRelatedArticles(article: Article, limit = 3): Promise<Article[]> {
+  const dbArticles = await prisma.article.findMany({
+    where: {
+      published: true,
+      category: article.category,
+      slug: { not: article.slug }
+    },
+    orderBy: { createdAt: 'desc' },
+    take: limit
+  });
+  return dbArticles.map(mapDbArticle);
 }

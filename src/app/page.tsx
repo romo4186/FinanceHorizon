@@ -6,8 +6,9 @@ import { getAllArticles, getArticleBySlug } from '@/lib/content';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import styles from './page.module.css';
 
-export default function Home() {
-  const latestArticles = getAllArticles().slice(0, 6);
+export default async function Home() {
+  const allArticles = await getAllArticles();
+  const latestArticles = allArticles.slice(0, 6);
   
   // Hand-picked evergreen content for Editor's Picks
   const editorsPickSlugs = [
@@ -16,9 +17,10 @@ export default function Home() {
     'roth-ira-vs-traditional-ira'
   ];
   
-  const editorsPicks = editorsPickSlugs
-    .map(slug => getArticleBySlug(slug))
-    .filter((article): article is typeof article & {} => !!article);
+  const editorsPicksResults = await Promise.all(
+    editorsPickSlugs.map(slug => getArticleBySlug(slug))
+  );
+  const editorsPicks = editorsPicksResults.filter((article): article is typeof article & {} => !!article);
 
   const categories = [
     {
