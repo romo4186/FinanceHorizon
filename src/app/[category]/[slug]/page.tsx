@@ -187,17 +187,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <div className={styles.bottomGrid}>
                 {relatedArticles.map((rel) => (
                   <article key={rel.slug} className={styles.bottomCard}>
-                    <Link href={`/${rel.category}/${rel.slug}`}>
-                      <div className={styles.bottomImageWrapper}>
-                        <Image
-                          src={rel.featuredImage}
-                          alt={rel.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          className={styles.bottomCardImage}
-                        />
-                      </div>
-                    </Link>
+                    <div className={styles.bottomImageWrapper}>
+                      <Image
+                        src={rel.featuredImage}
+                        alt={rel.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className={styles.bottomCardImage}
+                      />
+                    </div>
                     <div className={styles.bottomCardMeta}>
                       <span className={styles.bottomCardCategory}>{rel.category.replace('-', ' ')}</span>
                       <span>{rel.readTime}</span>
