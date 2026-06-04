@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CookieBanner from '@/components/CookieBanner';
 import SchemaData from '@/components/SchemaData';
 import { logTraffic } from '@/lib/audit';
 import './globals.css';
@@ -99,6 +100,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <CookieBanner />
         <SchemaData type="organization" />
       </body>
     </html>

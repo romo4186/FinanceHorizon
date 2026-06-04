@@ -1,0 +1,116 @@
+.bannerContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  max-width: 450px;
+  width: calc(100% - 48px);
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.bannerContent {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary, #0f172a);
+  margin: 0;
+}
+
+.description {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-secondary, #475569);
+  margin: 0;
+}
+
+.link {
+  color: var(--primary, #0f4c81);
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--secondary, #1f7a8c);
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.declineBtn {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--text-secondary, #475569);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-md, 6px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.declineBtn:hover {
+  background-color: var(--bg-secondary, #f8fafc);
+  color: var(--text-primary, #0f172a);
+}
+
+.acceptBtn {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 20px;
+  background-color: var(--primary, #0f4c81);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md, 6px);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.acceptBtn:hover {
+  background-color: var(--secondary, #1f7a8c);
+}
+
+/* Responsive adjustment for mobile */
+@media (max-width: 640px) {
+  .bannerContainer {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    width: calc(100% - 32px);
+    max-width: none;
+  }
+}
