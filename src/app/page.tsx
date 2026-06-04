@@ -130,13 +130,6 @@ export default async function Home() {
                   <p className={styles.articleExcerpt}>{article.metaDescription}</p>
                   
                   <div className={styles.authorRow}>
-                    <Image
-                      src={article.author.avatar}
-                      alt={article.author.name}
-                      width={36}
-                      height={36}
-                      className={styles.authorAvatar}
-                    />
                     <div>
                       <div className={styles.authorName}>{article.author.name}</div>
                       <div className={styles.authorRole}>{article.author.role}</div>
@@ -184,13 +177,6 @@ export default async function Home() {
                   <p className={styles.articleExcerpt}>{article.metaDescription}</p>
                   
                   <div className={styles.authorRow}>
-                    <Image
-                      src={article.author.avatar}
-                      alt={article.author.name}
-                      width={36}
-                      height={36}
-                      className={styles.authorAvatar}
-                    />
                     <div>
                       <div className={styles.authorName}>{article.author.name}</div>
                       <div className={styles.authorRole}>{article.author.role}</div>

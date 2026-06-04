@@ -193,13 +193,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   </p>
                   
                   <div className={styles.authorRow}>
-                    <Image
-                      src={featuredArticle.author.avatar}
-                      alt={featuredArticle.author.name}
-                      width={40}
-                      height={40}
-                      className={styles.authorAvatar}
-                    />
                     <div>
                       <div className={styles.authorName}>{featuredArticle.author.name}</div>
                       <div className={styles.authorRole}>{featuredArticle.author.role}</div>
@@ -242,13 +235,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                       <p className={styles.articleExcerpt}>{article.metaDescription}</p>
                       
                       <div className={styles.authorRow}>
-                        <Image
-                          src={article.author.avatar}
-                          alt={article.author.name}
-                          width={32}
-                          height={32}
-                          className={styles.authorAvatar}
-                        />
                         <div>
                           <div className={styles.authorName}>{article.author.name}</div>
                           <div className={styles.authorRole}>{article.author.role}</div>
