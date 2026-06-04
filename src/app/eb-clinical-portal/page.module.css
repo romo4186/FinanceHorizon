@@ -40,12 +40,12 @@
   font-family: var(--font-outfit), sans-serif;
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--primary);
   margin-bottom: 1rem;
 }
 
 .loginLogoAccent {
-  color: var(--color-secondary);
+  color: var(--secondary);
 }
 
 .loginCard h2 {
@@ -81,7 +81,7 @@
 
 .input:focus {
   outline: none;
-  border-color: var(--color-primary);
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.15);
 }
 
@@ -100,7 +100,7 @@
 
 .textarea:focus {
   outline: none;
-  border-color: var(--color-primary);
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(15, 76, 129, 0.15);
 }
 
@@ -122,7 +122,7 @@
 .loginButton {
   width: 100%;
   padding: 0.75rem;
-  background-color: var(--color-primary);
+  background-color: var(--primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -134,7 +134,7 @@
 }
 
 .loginButton:hover {
-  background-color: var(--color-primary-hover, #0b3d68);
+  background-color: var(--primary-hover);
 }
 
 .loginButton:active {
@@ -169,7 +169,7 @@
   font-family: var(--font-outfit), sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 .headerActions {
@@ -224,7 +224,7 @@
 .metricValue {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 /* Tab controls */
@@ -255,13 +255,13 @@
 }
 
 .tabActive {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
+  color: var(--primary);
+  border-bottom-color: var(--primary);
 }
 
 .createButton {
   padding: 0.6rem 1.2rem;
-  background-color: var(--color-secondary);
+  background-color: var(--secondary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -272,7 +272,7 @@
 }
 
 .createButton:hover {
-  background-color: #175d6b;
+  background-color: var(--secondary-hover);
   transform: translateY(-1px);
 }
 
@@ -364,7 +364,7 @@
 }
 
 .btnEdit {
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 .btnEdit:hover {
@@ -429,7 +429,7 @@
 .modalTitle {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 .closeButton {
@@ -475,7 +475,7 @@
 
 .btnSave {
   padding: 0.6rem 1.2rem;
-  background-color: var(--color-primary);
+  background-color: var(--primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -484,5 +484,34 @@
 }
 
 .btnSave:hover {
-  background-color: var(--color-primary-hover, #0b3d68);
+  background-color: var(--primary-hover);
+}
+
+.btnPreview {
+  color: var(--secondary);
+}
+
+.btnPreview:hover {
+  background-color: var(--secondary-light);
+  border-color: var(--secondary);
+  color: var(--secondary-hover);
+}
+
+.previewContainer {
+  width: 100%;
+  max-height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 250px;
+  object-fit: contain;
 }

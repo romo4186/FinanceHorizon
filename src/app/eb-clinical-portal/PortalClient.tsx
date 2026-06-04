@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Compass, Plus, Edit2, Trash2, LogOut, CheckCircle, FileText, Calendar } from 'lucide-react';
+import { Compass, Plus, Edit2, Trash2, LogOut, CheckCircle, FileText, Calendar, Eye } from 'lucide-react';
 import { adminLogin, adminLogout, upsertArticle, deleteArticle } from '@/app/actions/admin';
 import { getWordCount } from '@/lib/utils';
 import styles from './page.module.css';
@@ -53,6 +53,10 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
   // Modal / Form state
   const [editingArticle, setEditingArticle] = useState<Partial<ArticleData> | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
+
+  // File upload state
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   // Auto-generate slug from title helper
   const handleTitleChange = (val: string, currentForm: Partial<ArticleData>) => {
@@ -110,6 +114,8 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
       createdAt: new Date().toISOString().substring(0, 16), // datetime-local format
     });
     setFormError(null);
+    setSelectedFile(null);
+    setImagePreview('');
   };
 
   const handleEditClick = (article: any) => {
@@ -128,6 +134,8 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
       createdAt: new Date(article.createdAt).toISOString().substring(0, 16),
     });
     setFormError(null);
+    setSelectedFile(null);
+    setImagePreview(article.imageUrl || '');
   };
 
   const handleDeleteClick = async (id: string) => {
@@ -171,8 +179,31 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
     }
 
     setIsLoading(true);
+    let finalImageUrl = editingArticle.imageUrl || '';
 
     try {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadRes.ok) {
+          const errData = await uploadRes.json();
+          throw new Error(errData.error || 'Failed to upload image.');
+        }
+
+        const uploadData = await uploadRes.json();
+        if (uploadData.success && uploadData.url) {
+          finalImageUrl = uploadData.url;
+        } else {
+          throw new Error('Image upload failed.');
+        }
+      }
+
       const payload: any = {
         id: editingArticle.id,
         slug: editingArticle.slug,
@@ -182,7 +213,7 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
         metaDescription: editingArticle.metaDescription || undefined,
         excerpt: editingArticle.excerpt,
         content: editingArticle.content,
-        imageUrl: editingArticle.imageUrl || undefined,
+        imageUrl: finalImageUrl || undefined,
         published: editingArticle.published || false,
         authorSlug: editingArticle.authorSlug,
       };
@@ -398,6 +429,16 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
                   </td>
                   <td>
                     <div className={styles.actionsCell}>
+                      <a
+                        href={`/${art.category}/${art.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`${styles.btnIcon} ${styles.btnPreview}`}
+                        title="Preview Live Article"
+                        style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                      >
+                        <Eye size={14} />
+                      </a>
                       <button
                         onClick={() => handleEditClick(art)}
                         className={`${styles.btnIcon} ${styles.btnEdit}`}
@@ -499,7 +540,7 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
                     </select>
                   </div>
 
-                  {/* Featured Image */}
+                  {/* Featured Image URL */}
                   <div className={styles.formGroup}>
                     <label htmlFor="imageUrl">Featured Image URL</label>
                     <input
@@ -507,10 +548,48 @@ export default function PortalClient({ isLoggedIn: initialIsLoggedIn, initialArt
                       id="imageUrl"
                       className={styles.input}
                       value={editingArticle.imageUrl || ''}
-                      onChange={(e) => setEditingArticle({ ...editingArticle, imageUrl: e.target.value })}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEditingArticle({ ...editingArticle, imageUrl: val });
+                        setImagePreview(val);
+                        setSelectedFile(null); // Clear selected file if user overrides manually
+                      }}
                       placeholder="https://images.unsplash.com/..."
                     />
                   </div>
+
+                  {/* Upload Featured Image */}
+                  <div className={styles.formGroup}>
+                    <label htmlFor="imageFile">Upload Image File</label>
+                    <input
+                      type="file"
+                      id="imageFile"
+                      accept="image/*"
+                      className={styles.input}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setSelectedFile(file);
+                          setImagePreview(URL.createObjectURL(file));
+                        }
+                      }}
+                    />
+                  </div>
+
+                  {/* Image Live Preview */}
+                  {imagePreview && (
+                    <div className={`${styles.formGroup} ${styles.formGridFull}`}>
+                      <label>Image Live Preview</label>
+                      <div className={styles.previewContainer}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={imagePreview}
+                          alt="Live Preview"
+                          className={styles.previewImage}
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   {/* Created At / Override Date */}
                   <div className={styles.formGroup}>
