@@ -1,0 +1,66 @@
+.container {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.title {
+  font-family: var(--font-outfit), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.link {
+  color: var(--text-secondary);
+  display: inline-block;
+  position: relative;
+  padding-left: 0.75rem;
+  transition: var(--transition-fast);
+}
+
+/* Custom bullet indicator */
+.link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--primary);
+  transition: var(--transition-fast);
+}
+
+.link:hover {
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
+.link:hover::before {
+  background-color: var(--secondary);
+  transform: scale(1.5);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.25rem;
+  }
+}
