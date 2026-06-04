@@ -87,7 +87,9 @@ async function main() {
     
     await prisma.article.upsert({
       where: { slug: staticArt.slug },
-      update: {},
+      update: {
+        imageUrl: staticArt.featuredImage,
+      },
       create: {
         slug: staticArt.slug,
         category: staticArt.category,

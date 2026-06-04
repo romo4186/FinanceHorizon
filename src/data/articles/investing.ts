@@ -12,7 +12,7 @@ export const investingArticles: Article[] = [
     publishDate: '2026-05-12',
     readTime: '6 min read',
     author: authors['david-vance'],
-    featuredImage: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-etfs-beginners.png',
     introduction: 'Investing in the stock market is the most reliable way to build long-term wealth, but picking individual stocks can be risky and time-consuming. Exchange-Traded Funds (ETFs) offer the perfect solution. By buying a single share of an ETF, you instantly purchase a diversified basket of hundreds of stocks. In this guide, we review the best beginner-friendly ETFs in 2026.',
     sections: [
       {
@@ -92,7 +92,7 @@ export const investingArticles: Article[] = [
     publishDate: '2026-05-19',
     readTime: '6 min read',
     author: authors['david-vance'],
-    featuredImage: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/roth-ira-vs-traditional-ira.png',
     introduction: 'Saving for retirement is one of the most important financial tasks you will face. In the United States, Individual Retirement Accounts (IRAs) offer massive tax advantages to help you grow your nest egg. The two main types are Roth IRAs and Traditional IRAs. The choice between them comes down to a single question: do you want to pay taxes now, or pay taxes later? Let\'s dive into the details.',
     sections: [
       {
@@ -174,7 +174,7 @@ export const investingArticles: Article[] = [
     publishDate: '2026-05-24',
     readTime: '5 min read',
     author: authors['david-vance'],
-    featuredImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/how-to-start-investing-100.png',
     introduction: 'A common misconception is that you need thousands of dollars to start investing. Thanks to modern financial technology, that is no longer true. You can start investing with as little as $100—or even $5. The secret to wealth building isn\'t how much you start with; it\'s how early you begin. In this guide, we show you exactly how to put your first $100 to work.',
     sections: [
       {
@@ -240,7 +240,7 @@ export const investingArticles: Article[] = [
     publishDate: '2026-05-29',
     readTime: '6 min read',
     author: authors['david-vance'],
-    featuredImage: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/dividend-investing-guide.png',
     introduction: 'Imagine waking up and seeing that cash has been deposited directly into your bank account, simply because you own a few shares of stock. That is the reality of dividend investing. Dividends are cash payments companies distribute to their shareholders as a reward for holding their stock. In this guide, we explain how to build a reliable cash-flow portfolio.',
     sections: [
       {
@@ -309,7 +309,7 @@ export const investingArticles: Article[] = [
     publishDate: '2026-06-02',
     readTime: '5 min read',
     author: authors['david-vance'],
-    featuredImage: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/sp-500-investing-explained.png',
     introduction: 'When financial commentators say "the market is up today," they are almost always referring to the S&P 500. As the premier index tracking the American economy, the S&P 500 has created millions of millionaires over the past century. In this guide, we break down what the index is, how it works, and how you can invest in it.',
     sections: [
       {

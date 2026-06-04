@@ -12,7 +12,7 @@ export const bankingArticles: Article[] = [
     publishDate: '2026-05-18',
     readTime: '6 min read',
     author: authors['amanda-ross'],
-    featuredImage: 'https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-online-banks-america.png',
     introduction: 'In 2026, banking has evolved. Traditional brick-and-mortar banks are no longer the default choice for storing your money. Online banks have taken center stage, offering interest rates up to 10 to 20 times higher than traditional institutions, while cutting out pesky monthly maintenance fees. In this review, we compare the best online banks in America based on yields, checking features, and customer service.',
     sections: [
       {
@@ -91,7 +91,7 @@ export const bankingArticles: Article[] = [
     publishDate: '2026-05-23',
     readTime: '5 min read',
     author: authors['amanda-ross'],
-    featuredImage: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-high-yield-savings-accounts.png',
     introduction: 'Leaving your money in a traditional savings account is costing you hundreds, or even thousands, of dollars a year in lost interest. High-Yield Savings Accounts (HYSAs) offer the exact same liquidity and safety as standard accounts but pay interest rates that actually keep pace with inflation. In this guide, we review the top HYSAs of 2026 to help you grow your cash reserves.',
     sections: [
       {
@@ -166,7 +166,7 @@ export const bankingArticles: Article[] = [
     publishDate: '2026-05-26',
     readTime: '6 min read',
     author: authors['amanda-ross'],
-    featuredImage: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/how-fdic-insurance-works.png',
     introduction: 'Recent bank collapses have highlighted the importance of understanding the safety of our financial deposits. FDIC insurance is the ultimate buffer protecting American depositors, but many are unaware of its specific limits and coverage types. In this guide, we break down exactly how the FDIC safeguards your money.',
     sections: [
       {
@@ -247,7 +247,7 @@ export const bankingArticles: Article[] = [
     publishDate: '2026-05-30',
     readTime: '5 min read',
     author: authors['amanda-ross'],
-    featuredImage: 'https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-bank-bonuses-this-month.png',
     introduction: 'Banks are locked in a fierce competition to attract new customers. To convince you to sign up, they are willing to pay cash bonuses ranging from $100 to over $1,000. By opening an account, setting up direct deposits, or parking cash, you can earn easy money. In this updated monthly list, we highlight the best bank bonuses currently available.',
     sections: [
       {
@@ -322,7 +322,7 @@ export const bankingArticles: Article[] = [
     publishDate: '2026-06-02',
     readTime: '4 min read',
     author: authors['amanda-ross'],
-    featuredImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/checking-vs-savings-accounts.png',
     introduction: 'Checking and savings accounts are the two foundational pillars of personal finance. While they share similarities, they serve completely different purposes. Understanding the core distinctions between the two is vital to maximizing your liquidity and interest income.',
     sections: [
       {

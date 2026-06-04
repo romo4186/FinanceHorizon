@@ -12,7 +12,7 @@ export const creditCardArticles: Article[] = [
     publishDate: '2026-05-15',
     readTime: '6 min read',
     author: authors['sarah-jenkins'],
-    featuredImage: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-credit-cards-students-2026.png',
     introduction: 'Starting college is an exciting milestone, and it\'s also the perfect time to begin building your financial foundation. One of the most effective tools to build credit is a student credit card. Unlike traditional credit cards, student cards are specifically designed for people with limited or no credit history. In this comprehensive guide, we compare the top-rated student credit cards in 2026 to help you make an informed choice.',
     sections: [
       {
@@ -110,7 +110,7 @@ export const creditCardArticles: Article[] = [
     publishDate: '2026-05-20',
     readTime: '5 min read',
     author: authors['sarah-jenkins'],
-    featuredImage: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-cash-back-credit-cards.png',
     introduction: 'Cash back credit cards are the simplest way to get rewarded for your everyday spending. Whether you are buying groceries, filling up your gas tank, or paying utility bills, using a cash back card is like getting a perpetual discount. In this guide, we analyze the top cash back credit cards of 2026 to help you pocket more cash.',
     sections: [
       {
@@ -185,7 +185,7 @@ export const creditCardArticles: Article[] = [
     publishDate: '2026-05-28',
     readTime: '7 min read',
     author: authors['sarah-jenkins'],
-    featuredImage: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/how-to-improve-credit-score.png',
     introduction: 'A high credit score is your ticket to low-interest loans, premium credit cards, and lower insurance premiums. If your score is currently less than stellar, don\'t panic. Your credit score is dynamic, and with the right strategy, you can begin seeing improvements within just 30 to 60 days. In this step-by-step guide, we walk you through the most powerful methods to boost your score.',
     sections: [
       {
@@ -254,7 +254,7 @@ export const creditCardArticles: Article[] = [
     publishDate: '2026-06-01',
     readTime: '5 min read',
     author: authors['sarah-jenkins'],
-    featuredImage: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/credit-utilization-explained.png',
     introduction: 'Did you know that you could pay your credit card bill on time every single month and still see your credit score drop? This common and frustrating issue is almost always caused by high credit utilization. As the second most important factor in your FICO score, understanding credit utilization is key to taking control of your financial health.',
     sections: [
       {
@@ -337,7 +337,7 @@ export const creditCardArticles: Article[] = [
     publishDate: '2026-06-03',
     readTime: '6 min read',
     author: authors['sarah-jenkins'],
-    featuredImage: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-travel-credit-cards.png',
     introduction: 'Travel credit cards allow you to turn your everyday purchases into flights, hotel stays, and VIP experiences. From airport lounge access to comprehensive travel insurance, the right travel card can save you thousands of dollars on your next vacation. In this guide, we break down the best travel credit cards of 2026 to elevate your travel style.',
     sections: [
       {

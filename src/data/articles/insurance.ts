@@ -12,7 +12,7 @@ export const insuranceArticles: Article[] = [
     publishDate: '2026-05-14',
     readTime: '6 min read',
     author: authors['marcus-thorne'],
-    featuredImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/best-auto-insurance-companies.png',
     introduction: 'Auto insurance is a legal requirement for drivers in almost every state, but that doesn\'t mean you have to pay a fortune for coverage. The best auto insurance companies balance competitive premium rates with reliable customer service and rapid claims processing. In this comprehensive guide, we compare the top car insurance providers in America for 2026.',
     sections: [
       {
@@ -321,7 +321,7 @@ export const insuranceArticles: Article[] = [
     publishDate: '2026-06-03',
     readTime: '5 min read',
     author: authors['marcus-thorne'],
-    featuredImage: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800&h=450',
+    featuredImage: '/images/cheapest-car-insurance-options.png',
     introduction: 'Has your auto insurance bill gone up recently? Car insurance premiums have risen nationwide due to rising vehicle replacement costs and inflation. However, you don\'t have to accept high rates. There are multiple legal, direct strategies to slash your premiums. In this guide, we show you how to find the cheapest car insurance options.',
     sections: [
       {
