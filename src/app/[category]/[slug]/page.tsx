@@ -142,6 +142,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             
             {/* Left Content Column */}
             <div className={styles.articleBody}>
+              {/* Featured Image */}
+              <div className={styles.featuredImageWrapper}>
+                <Image
+                  src={article.featuredImage}
+                  alt={article.title}
+                  width={800}
+                  height={450}
+                  priority
+                  className={styles.featuredImage}
+                />
+              </div>
+
               {/* Introduction */}
               <p className={styles.introText}>{article.introduction}</p>
 
