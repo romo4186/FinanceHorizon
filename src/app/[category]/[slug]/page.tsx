@@ -74,7 +74,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
-  const relatedArticles = await getRelatedArticles(article, 4);
+  const relatedArticles = await getRelatedArticles(article, 3);
   const breadcrumbItems = [
     { name: 'Home', url: '/' },
     { name: article.category.replace('-', ' '), url: `/${article.category}` },
@@ -106,104 +106,112 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <article className={styles.layout}>
         <div className="container">
           
-          {/* Breadcrumbs */}
-          <Breadcrumbs items={breadcrumbItems} />
+          <div className={styles.articleContentWrapper}>
+            {/* Breadcrumbs */}
+            <Breadcrumbs items={breadcrumbItems} />
 
-          {/* Article Header */}
-          <header className={styles.header}>
-            <Link href={`/${article.category}`} className={styles.categoryLink}>
-              {article.category.replace('-', ' ')}
-            </Link>
-            <h1 className={styles.title}>{article.title}</h1>
-            
-            <div className={styles.metaRow}>
-              <span>
-                By{' '}
-                <Link href={`/author/${article.author.slug}`} className={styles.authorLink}>
-                  {article.author.name}
-                </Link>
-              </span>
-              <span>•</span>
-              <time dateTime={article.publishDate}>
-                Published: {new Date(article.publishDate).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
-              <span>•</span>
-              <span>{article.readTime}</span>
-            </div>
-          </header>
-
-
-          {/* Main 2-Column Grid */}
-          <div className={styles.mainGrid}>
-            
-            {/* Left Content Column */}
-            <div className={styles.articleBody}>
-              {/* Featured Image */}
-              <div className={styles.featuredImageWrapper}>
-                <Image
-                  src={article.featuredImage}
-                  alt={article.title}
-                  width={800}
-                  height={450}
-                  priority
-                  className={styles.featuredImage}
-                />
+            {/* Article Header */}
+            <header className={styles.header}>
+              <Link href={`/${article.category}`} className={styles.categoryLink}>
+                {article.category.replace('-', ' ')}
+              </Link>
+              <h1 className={styles.title}>{article.title}</h1>
+              
+              <div className={styles.metaRow}>
+                <span>
+                  By{' '}
+                  <Link href={`/author/${article.author.slug}`} className={styles.authorLink}>
+                    {article.author.name}
+                  </Link>
+                </span>
+                <span>•</span>
+                <time dateTime={article.publishDate}>
+                  Published: {new Date(article.publishDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+                <span>•</span>
+                <span>{article.readTime}</span>
               </div>
+            </header>
 
-              {/* Table of Contents */}
-              <TableOfContents sections={tocSections} />
-
-              {/* Main HTML content body from DB */}
-              <div 
-                className={styles.articleHtmlContent}
-                dangerouslySetInnerHTML={{ 
-                  __html: (article.content || '').includes('<section id="faq"') 
-                    ? (article.content || '').split('<section id="faq"')[0] 
-                    : (article.content || '') 
-                }} 
-              />
-
-              {/* FAQs Accordion */}
-              {article.faqs.length > 0 && <FAQSection faqs={article.faqs} />}
-
-              {/* Share buttons */}
-              <ShareButtons title={article.title} />
-
-              {/* Author Bio Box */}
-              <AuthorBox author={article.author} />
-
-            </div>
-
-            {/* Right Sticky Sidebar Column */}
-            <aside className={styles.sidebar}>
-
-              {/* Related Articles list */}
-              {relatedArticles.length > 0 && (
-                <div className={styles.sidebarWidget}>
-                  <h3 className={styles.widgetTitle}>Related Guides</h3>
-                  <div className={styles.relatedList}>
-                    {relatedArticles.map((rel) => (
-                      <div key={rel.slug} className={styles.relatedItem}>
-                        <Link
-                          href={`/${rel.category}/${rel.slug}`}
-                          className={styles.relatedLink}
-                        >
-                          {rel.title}
-                        </Link>
-                        <span className={styles.relatedDate}>{rel.publishDate}</span>
-                      </div>
-                    ))}
-                  </div>
+            {/* Main Single Column Layout */}
+            <div className={styles.mainGrid}>
+              
+              {/* Left Content Column */}
+              <div className={styles.articleBody}>
+                {/* Featured Image */}
+                <div className={styles.featuredImageWrapper}>
+                  <Image
+                    src={article.featuredImage}
+                    alt={article.title}
+                    width={800}
+                    height={450}
+                    priority
+                    className={styles.featuredImage}
+                  />
                 </div>
-              )}
-            </aside>
 
+                {/* Table of Contents */}
+                <TableOfContents sections={tocSections} />
+
+                {/* Main HTML content body from DB */}
+                <div 
+                  className={styles.articleHtmlContent}
+                  dangerouslySetInnerHTML={{ 
+                    __html: (article.content || '').includes('<section id="faq"') 
+                      ? (article.content || '').split('<section id="faq"')[0] 
+                      : (article.content || '') 
+                  }} 
+                />
+
+                {/* FAQs Accordion */}
+                {article.faqs.length > 0 && <FAQSection faqs={article.faqs} />}
+
+                {/* Share buttons */}
+                <ShareButtons title={article.title} />
+
+                {/* Author Bio Box */}
+                <AuthorBox author={article.author} />
+
+              </div>
+            </div>
           </div>
 
+          {/* Related Articles Bottom Section */}
+          {relatedArticles.length > 0 && (
+            <section className={styles.bottomSection}>
+              <h2 className={styles.sectionTitle} style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem', marginBottom: '1.5rem' }}>Related Guides</h2>
+              <div className={styles.bottomGrid}>
+                {relatedArticles.map((rel) => (
+                  <article key={rel.slug} className={styles.bottomCard}>
+                    <Link href={`/${rel.category}/${rel.slug}`}>
+                      <div className={styles.bottomImageWrapper}>
+                        <Image
+                          src={rel.featuredImage}
+                          alt={rel.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className={styles.bottomCardImage}
+                        />
+                      </div>
+                    </Link>
+                    <div className={styles.bottomCardMeta}>
+                      <span className={styles.bottomCardCategory}>{rel.category.replace('-', ' ')}</span>
+                      <span>{rel.readTime}</span>
+                    </div>
+                    <h3 style={{ margin: '0.5rem 0 0 0', lineHeight: 1.3 }}>
+                      <Link href={`/${rel.category}/${rel.slug}`} className={styles.bottomCardLink}>
+                        {rel.title}
+                      </Link>
+                    </h3>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
 
         </div>
       </article>
