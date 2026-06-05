@@ -167,7 +167,7 @@ async function main() {
     // Generate optimized Title
     let rawTitle = toTitleCase(item.keyword);
     let h1Title = rawTitle;
-    let metaTitle = `${rawTitle} | Finance Horizon`;
+    let metaTitle = rawTitle;
 
     if (item.intent.includes('commercial')) {
       if (!rawTitle.toLowerCase().includes('best') && !rawTitle.toLowerCase().includes('top')) {
@@ -183,10 +183,7 @@ async function main() {
       }
     }
 
-    metaTitle = `${h1Title} | Finance Horizon`;
-    if (metaTitle.length > 65) {
-      metaTitle = `${h1Title.substring(0, 50)}... | Finance Horizon`;
-    }
+    metaTitle = h1Title;
 
     // Assign author sequentially to distribute work evenly
     const authorSlug = AUTHORS[i % AUTHORS.length];
