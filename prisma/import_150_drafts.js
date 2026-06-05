@@ -102,6 +102,7 @@ async function main() {
 
   // Deduplicate and select top keywords for each category
   const draftsToCreate = [];
+  const categoryTopLists = {};
 
   for (const category of Object.keys(categoryKeywords)) {
     const seenKeywords = new Set();
@@ -120,13 +121,21 @@ async function main() {
     // Take top 38 keywords from each category to make ~150 varied drafts
     const top38 = uniqueList.slice(0, 38);
     console.log(`Category "${category}": selected ${top38.length} unique keywords.`);
-    
-    top38.forEach(item => {
-      draftsToCreate.push({
-        category,
-        ...item
-      });
-    });
+    categoryTopLists[category] = top38;
+  }
+
+  // Interleave categories: credit-cards -> banking -> investing -> insurance
+  const categoriesOrdered = ['credit-cards', 'banking', 'investing', 'insurance'];
+  for (let idx = 0; idx < 38; idx++) {
+    for (const category of categoriesOrdered) {
+      const item = categoryTopLists[category][idx];
+      if (item) {
+        draftsToCreate.push({
+          category,
+          ...item
+        });
+      }
+    }
   }
 
   console.log(`Total draft articles selected: ${draftsToCreate.length}`);
