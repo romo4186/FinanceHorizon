@@ -47,4 +47,5 @@ export interface Article {
   faqs: FAQItem[];
   relatedSlugs: string[];
   content?: string;
+  createdAt?: string;
 }

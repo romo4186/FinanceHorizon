@@ -47,7 +47,8 @@ export function mapDbArticle(dbArt: any): Article {
     sections: [], // served as HTML
     faqs,
     relatedSlugs: [],
-    content: dbArt.content
+    content: dbArt.content,
+    createdAt: dbArt.createdAt ? new Date(dbArt.createdAt).toISOString() : undefined
   };
 }
 

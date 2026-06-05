@@ -139,7 +139,7 @@ export async function upsertArticle(formData: {
 
   // Revalidate main pages to display changes instantly
   revalidatePath('/');
-  revalidatePath('/eb-clinical-portal');
+  revalidatePath('/finance-admin-portal');
   revalidatePath(`/${category}`);
   revalidatePath(`/${category}/${slug}`);
   revalidatePath(`/search`);
@@ -167,7 +167,7 @@ export async function deleteArticle(id: string) {
 
   // Revalidate pages
   revalidatePath('/');
-  revalidatePath('/eb-clinical-portal');
+  revalidatePath('/finance-admin-portal');
   if (article.category) {
     revalidatePath(`/${article.category}`);
     revalidatePath(`/${article.category}/${article.slug}`);
