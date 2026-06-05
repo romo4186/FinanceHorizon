@@ -5,9 +5,22 @@ import { cookies, headers } from 'next/headers';
 import { prisma } from '@/lib/prisma';
 import { encryptSession, decryptSession, checkIpLockout, recordLoginFailure, recordLoginSuccess } from '@/lib/auth';
 
+/**
+ * Resolves the real client IP from trusted proxy headers.
+ * Priority: cf-connecting-ip (Cloudflare) > x-real-ip (Nginx/Vercel) > x-forwarded-for first entry.
+ */
+function resolveClientIp(headersList: Awaited<ReturnType<typeof headers>>): string {
+  return (
+    headersList.get('cf-connecting-ip') ||
+    headersList.get('x-real-ip') ||
+    headersList.get('x-forwarded-for')?.split(',')[0].trim() ||
+    '127.0.0.1'
+  );
+}
+
 export async function adminLogin(password: string) {
   const headersList = await headers();
-  const ip = headersList.get('x-forwarded-for')?.split(',')[0].trim() || '127.0.0.1';
+  const ip = resolveClientIp(headersList);
 
   // Check lockout status
   const lockoutStatus = await checkIpLockout(ip);
@@ -16,7 +29,12 @@ export async function adminLogin(password: string) {
     return { success: false, error: `Too many failed attempts. Try again in ${minutesLeft} minutes.` };
   }
 
-  const adminPassword = process.env.ADMIN_PASSWORD || 'ClinicalPortal2026!';
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    console.error('[adminLogin] ADMIN_PASSWORD environment variable is not set.');
+    return { success: false, error: 'Server configuration error. Contact the administrator.' };
+  }
+
   if (password !== adminPassword) {
     const result = await recordLoginFailure(ip);
     if (result.attempts >= 5) {

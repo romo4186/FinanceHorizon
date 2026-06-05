@@ -1,9 +1,13 @@
 import * as jose from 'jose';
 import { prisma } from './prisma';
 
-const secret = new TextEncoder().encode(
-  process.env.SESSION_SECRET || 'fallback-secret-for-development-only-replace-immediately'
-);
+const rawSecret = process.env.SESSION_SECRET;
+if (!rawSecret) {
+  throw new Error(
+    '[auth] SESSION_SECRET environment variable is not set. Set it before starting the server.'
+  );
+}
+const secret = new TextEncoder().encode(rawSecret);
 
 export async function encryptSession(payload: { admin: boolean }) {
   return await new jose.SignJWT(payload)
